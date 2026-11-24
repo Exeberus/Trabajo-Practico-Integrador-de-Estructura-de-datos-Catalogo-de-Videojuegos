@@ -22,6 +22,18 @@ class GrafoVideojuegos:
         videojuego_origen = self._buscar_videojuego(origen)
         videojuego_destino = self._buscar_videojuego(destino)
 
+        print("\n--- DEBUG BFS ---")
+        print("Videojuegos en el grafo:", len(self._adyacencia))
+
+        print("Origen encontrado:", videojuego_origen)
+        print("Destino encontrado:", videojuego_destino)
+
+        if videojuego_origen is not None:
+            vecinos = self._adyacencia[videojuego_origen]
+            print("Vecinos del origen:", [v.nombre for v in vecinos])
+
+        print("-----------------\n")
+
         # Comprobar que ambos videojuegos existan
         if videojuego_origen is None or videojuego_destino is None:
             return []
@@ -114,19 +126,12 @@ class GrafoVideojuegos:
 
             puntaje = self._calcular_similitud(videojuego, existente)
 
-            mismo_genero = (
-                self._normalizar(videojuego.genero)
-                == self._normalizar(existente.genero)
-            )
-            misma_desarrolladora = (
-                self._normalizar(videojuego.desarrolladora)
-                == self._normalizar(existente.desarrolladora)
-            )
-
-            if mismo_genero or misma_desarrolladora:
+            # Crear una conexion si existe alguna similitud
+            if puntaje > 0:
 
                 self._adyacencia[videojuego][existente] = puntaje
                 self._adyacencia[existente][videojuego] = puntaje
+
 
     def relacionados(self, nombre):
 
