@@ -49,13 +49,14 @@ Sistema de terminal para guardar, buscar, explorar, relacionar y recomendar vide
 
 ### TP 7 — Grafo de videojuegos
 
-- Modela cada videojuego como un vértice y crea una arista no dirigida cuando dos juegos comparten género o desarrolladora.
-- Asigna a cada relación un puntaje de similitud: suma género, desarrolladora y plataformas compartidas.
+- Modela cada videojuego como un vértice y crea una arista no dirigida cuando dos juegos tienen un puntaje de similitud mayor que cero; compartir al menos una plataforma también crea una relación.
+- Calcula el puntaje de similitud sumando 3 por género compartido, 2 por desarrolladora compartida y 1 por cada plataforma compartida.
 - Permite consultar los juegos relacionados ordenados por ese puntaje.
 
 ### TP 8 — Recorridos BFS y DFS
 
-- Implementa BFS con una cola para encontrar un camino con la menor cantidad de conexiones entre dos videojuegos.
+- Implementa BFS con una cola para encontrar un camino con la menor cantidad de aristas entre dos videojuegos conectados por las relaciones del grafo.
+- Para BFS, cada arista cuenta como una conexión; el puntaje de similitud no modifica la distancia ni la elección del camino más corto.
 - Implementa DFS con una pila para explorar los videojuegos alcanzables desde un origen.
 - Ambos recorridos tienen complejidad O(V + E), con V vértices y E aristas.
 - Las opciones 10 y 11 del menú ejecutan BFS y DFS, respectivamente.
@@ -63,7 +64,7 @@ Sistema de terminal para guardar, buscar, explorar, relacionar y recomendar vide
 ### TP 9 — Caminos mínimos
 
 - Esta entrega fue salteada por decisión de la cátedra.
-- El BFS implementado minimiza la cantidad de aristas, no el puntaje acumulado de similitud; el sistema no presenta ese puntaje como costo de un camino mínimo.
+- El BFS implementado minimiza la cantidad de aristas (saltos), no el puntaje acumulado de similitud. Una relación con puntaje 1 cuenta lo mismo que una con puntaje mayor; el sistema no presenta ese puntaje como costo de un camino mínimo.
 
 ### TP 10 — Integración del producto
 
@@ -123,7 +124,7 @@ python -m unittest discover -v
 - Ejecutarse desde terminal con Python 3.8 o posterior y sin dependencias externas.
 - Mantener separados el modelo, la carga de datos, el catálogo, las estructuras y la interfaz.
 - Permitir comparar estrategias y ejecutar pruebas automatizadas reproducibles.
-- Informar claramente que BFS minimiza cantidad de conexiones, no el puntaje de similitud. TP9 fue salteado por decisión de la cátedra.
+- Informar claramente que BFS minimiza cantidad de conexiones del grafo, no el puntaje de similitud. TP9 fue salteado por decisión de la cátedra.
 
 ### Casos de uso
 
@@ -136,7 +137,7 @@ python -m unittest discover -v
 | Explorar categorías | Opción 5 | Muestra categorías y cantidad de juegos. |
 | Consultar ranking | Cantidad para el Top-N | Muestra los juegos con mayor puntuación sin alterar el heap original. |
 | Ver juegos relacionados | Título de un videojuego | Ordena sus vecinos por similitud. |
-| Buscar ruta | Títulos de origen y destino | BFS devuelve una ruta con menos conexiones, si existe. |
+| Buscar ruta | Títulos de origen y destino | BFS devuelve una ruta con la menor cantidad de aristas, si existe; no optimiza el puntaje de similitud. |
 | Explorar red | Título de origen | DFS muestra los juegos alcanzables desde ese videojuego. |
 
 ## Diagramas del sistema
